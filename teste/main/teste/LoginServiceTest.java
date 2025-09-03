@@ -68,7 +68,7 @@ public class LoginServiceTest {
 	    
 	 // TC 004 - Realizar login de usuário com senha vazia (null)
 	    @Test
-	    void LogarComSenhaVazia	() {
+	    void LogarComSenhaNula	() {
 	    	
 	        UsuarioRepositorio usuarioRepositorio = Mockito.mock(UsuarioRepositorio.class);
 	
@@ -81,10 +81,26 @@ public class LoginServiceTest {
 	
 	        assertFalse(resultado, "O login não deveria ser aceito com senha nula");
 	    }
+	    
+	 // TC extra 001 - Realizar login de usuário com senha vazia ("")
+	    @Test
+	    void LogarComSenhaVazia	() {
+	    	
+	        UsuarioRepositorio usuarioRepositorio = Mockito.mock(UsuarioRepositorio.class);
+	
+	        when(usuarioRepositorio.buscarPorLogin("teste"))
+	            .thenReturn(new Usuario("teste", "teste123"));
+	
+	        LoginService loginService = new LoginService(usuarioRepositorio);
+	
+	        boolean resultado = loginService.autenticar("testando", "");
+	
+	        assertFalse(resultado, "O login não deveria ser aceito com senha vazia");
+	    }
     
 	 // TC 005 - Realizar login de usuário com usuário vazio (null)
 	    @Test
-	    void LogarComUsuarioVazio	() {
+	    void LogarComUsuarioNulo	() {
 	    	
 	        UsuarioRepositorio usuarioRepositorio = Mockito.mock(UsuarioRepositorio.class);
 	
@@ -96,5 +112,21 @@ public class LoginServiceTest {
 	        boolean resultado = loginService.autenticar(null, "teste123");
 	
 	        assertFalse(resultado, "O login não deve ser aceito com usuário nula");
+	    }
+	    
+	 // TC extra 002 - Realizar login de usuário com usuário vazio ("")
+	    @Test
+	    void LogarComUsuarioVazio() {
+	    	
+	        UsuarioRepositorio usuarioRepositorio = Mockito.mock(UsuarioRepositorio.class);
+	
+	        when(usuarioRepositorio.buscarPorLogin("teste"))
+	            .thenReturn(new Usuario("teste", "teste123"));
+	
+	        LoginService loginService = new LoginService(usuarioRepositorio);
+	
+	        boolean resultado = loginService.autenticar("", "teste123");
+	
+	        assertFalse(resultado, "O login não deve ser aceito com usuário vazio");
 	    }
 }
