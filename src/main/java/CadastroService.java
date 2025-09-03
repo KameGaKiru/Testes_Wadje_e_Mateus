@@ -2,21 +2,22 @@ package main.java;
 
 public class CadastroService {
 	
-	private CadastroRepositorio cadastroRepositorio;
-
-	public CadastroService(CadastroRepositorio cadastroRepositorio) 
-	{
-	        this.cadastroRepositorio = cadastroRepositorio;
-	}
+	public CadastroService() {}
 	
-	public boolean cadastrar(Cadastro cadastro) {
-       
-		if (cadastro.getSenha() == null || cadastro.getSenha().isEmpty()) 
-		{
+	public boolean cadastrar(String usuario, String contato, String permissao, String senha) {
+        if (usuario == null || usuario.isEmpty() || !usuario.matches("^[a-zA-Z]+$")) {
             return false;
         }
-		
-		cadastroRepositorio.salvar(cadastro);
+        if (contato == null || contato.isEmpty() || !contato.matches("^[0-9]+$")) {
+            return false;
+        }
+        if (permissao == null || !permissao.equals("Usuário")) {
+            return false;
+        }
+        if (senha == null || senha.isEmpty() || !senha.matches("^(?=.*[A-Za-z])(?=.*[0-9]).+$")) {
+            return false;
+        }
+
         return true;
     }
 }
